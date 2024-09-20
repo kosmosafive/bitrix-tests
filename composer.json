@@ -1,0 +1,50 @@
+{
+    "name": "kosmos/bitrix-tests",
+    "description": "Kosmos: Набор инструментов для тестирования Bitrix Framework",
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/kosmosafive/bitrix-tests",
+    "type": "library",
+    "minimum-stability": "stable",
+    "keywords": [
+        "bitrix",
+        "kosmos",
+        "test",
+        "testing",
+        "unit",
+        "pest",
+        "phpunit",
+        "infection"
+    ],
+    "authors": [
+        {
+            "name": "Siarhei Buinevich",
+            "email": "a5-kosmos@yandex.ru",
+            "homepage": "https://t.me/kosmosafive",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "pestphp/pest": "^3",
+        "pestphp/pest-plugin-type-coverage": "^3",
+        "pestphp/pest-plugin-stressless": "^3",
+        "infection/infection": "^0.29.6",
+        "mockery/mockery": "^1.6.12",
+        "symfony/console": "^7",
+        "symfony/dotenv": "^6||^7"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kosmos\\BitrixTests\\": "src/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "infection/extension-installer": true,
+            "pestphp/pest-plugin": true
+        }
+    }
+}
