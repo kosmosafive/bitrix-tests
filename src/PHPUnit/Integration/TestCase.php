@@ -46,6 +46,7 @@ abstract class TestCase extends BitrixTestCase
             $console = new Console\Helper();
 
             $recreateTables = true;
+
             if ($totalCount === $testTotalCount) {
 
                 $silentArgv = array_filter($_SERVER['argv'], static function ($arg) {
@@ -72,6 +73,28 @@ abstract class TestCase extends BitrixTestCase
 
             if ($recreateTables) {
                 $section = $console->getOutput()->section();
+
+                $section->writeln('Dropping tables...');
+
+                $progressBar = $console->createProgressBar($totalCount);
+
+                $progressBar->start();
+
+                foreach ($testConnection->query('SHOW FULL TABLES WHERE Table_type = "BASE TABLE"')->fetchAll() as $row) {
+                    $table = $sqlHelper->quote(current($row));
+                    $testConnection->query("DROP TABLE IF EXISTS $table");
+                    $progressBar->advance();
+                }
+
+                foreach ($testConnection->query('SHOW FULL TABLES WHERE Table_type = "VIEW"')->fetchAll() as $row) {
+                    $table = $sqlHelper->quote(current($row));
+                    $testConnection->query("DROP VIEW IF EXISTS $table");
+                    $progressBar->advance();
+                }
+
+                $progressBar->finish();
+                $progressBar->clear();
+
                 $section->writeln('Recreating tables...');
 
                 $progressBar = $console->createProgressBar($totalCount);
@@ -81,7 +104,6 @@ abstract class TestCase extends BitrixTestCase
                 foreach ($connection->query('SHOW FULL TABLES WHERE Table_type = "BASE TABLE"')->fetchAll() as $row) {
                     $table = $sqlHelper->quote(current($row));
                     $schema = $connection->query("SHOW CREATE TABLE $table")->fetch();
-                    $testConnection->query("DROP TABLE IF EXISTS $table");
                     $testConnection->query($schema['Create Table']);
                     $testConnection->query("ALTER TABLE $table AUTO_INCREMENT = 1");
                     $progressBar->advance();
@@ -90,7 +112,6 @@ abstract class TestCase extends BitrixTestCase
                 foreach ($connection->query('SHOW FULL TABLES WHERE Table_type = "VIEW"')->fetchAll() as $row) {
                     $table = $sqlHelper->quote(current($row));
                     $schema = $connection->query("SHOW CREATE TABLE $table")->fetch();
-                    $testConnection->query("DROP VIEW IF EXISTS $table");
                     $testConnection->query($schema['Create View']);
                     $progressBar->advance();
                 }
