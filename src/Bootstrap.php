@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Kosmos\BitrixTests;
+namespace Kosmosafive\BitrixTests;
 
 use Bitrix\Main\IO;
 use Bitrix\Main\Application;
-use Kosmos\BitrixTests\Diag\ExceptionHandlerLog;
+use Kosmosafive\BitrixTests\Diag\ExceptionHandlerLog;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\Dotenv\Exception\FormatException;
 use Symfony\Component\Dotenv\Exception\PathException;

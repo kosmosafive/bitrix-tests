@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Kosmos\BitrixTests\PHPUnit\Integration\Data\ORM\Seeder;
+namespace Kosmosafive\BitrixTests\PHPUnit\Integration\Data\ORM\Seeder;
 
 use Bitrix\Main\Orm\Data\DataManager;
 use Bitrix\Main\Result;
 use Exception;
-use Kosmos\BitrixTests\PHPUnit\Integration\Data\ORM\SeedInterface;
+use Kosmosafive\BitrixTests\PHPUnit\Integration\Data\ORM\SeedInterface;
 
 class Base implements SeederInterface
 {
