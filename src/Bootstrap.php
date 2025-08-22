@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kosmosafive\BitrixTests;
+namespace Kosmosafive\Bitrix\Tests;
 
 use Bitrix\Main\IO;
 use Bitrix\Main\Application;
