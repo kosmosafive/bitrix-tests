@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Kosmosafive\BitrixTests\PHPUnit\Integration\Data\ORM\Collector;
+namespace Kosmosafive\Bitrix\Tests\PHPUnit\Integration\Data\ORM\Collector;
 
 use Bitrix\Main\Application;
 use Bitrix\Main\IO;
 use Bitrix\Main\IO\FileDeleteException;
-use Kosmosafive\BitrixTests\PHPUnit\Integration\Data\ORM\FileUpload;
+use Kosmosafive\Bitrix\Tests\PHPUnit\Integration\Data\ORM\FileUpload;
 
 class File extends Base
 {

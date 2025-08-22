@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kosmosafive\BitrixTests\PHPUnit\Integration\Data\ORM;
+namespace Kosmosafive\Bitrix\Tests\PHPUnit\Integration\Data\ORM;
 
 use Iterator;
 

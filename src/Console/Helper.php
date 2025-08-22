@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kosmosafive\BitrixTests\Console;
+namespace Kosmosafive\Bitrix\Tests\Console;
 
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Helper\ProgressBar;

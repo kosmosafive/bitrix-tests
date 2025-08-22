@@ -6,7 +6,7 @@ namespace Kosmosafive\BitrixTests;
 
 use Bitrix\Main\IO;
 use Bitrix\Main\Application;
-use Kosmosafive\BitrixTests\Diag\ExceptionHandlerLog;
+use Kosmosafive\Bitrix\Tests\Diag\ExceptionHandlerLog;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\Dotenv\Exception\FormatException;
 use Symfony\Component\Dotenv\Exception\PathException;
