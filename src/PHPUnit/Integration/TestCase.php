@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kosmos\BitrixTests\PHPUnit\Integration;
+namespace Kosmosafive\BitrixTests\PHPUnit\Integration;
 
 use Bitrix\Main\Application;
 use Bitrix\Main\DB\Connection;
@@ -11,8 +11,8 @@ use CDatabase;
 use Exception;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Helper\QuestionHelper;
-use Kosmos\BitrixTests\PHPUnit\BitrixTestCase;
-use Kosmos\BitrixTests\Console;
+use Kosmosafive\BitrixTests\PHPUnit\BitrixTestCase;
+use Kosmosafive\BitrixTests\Console;
 
 abstract class TestCase extends BitrixTestCase
 {

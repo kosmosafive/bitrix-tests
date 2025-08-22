@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kosmos\BitrixTests\PHPUnit\Integration\Data\ORM\Seeder;
+namespace Kosmosafive\BitrixTests\PHPUnit\Integration\Data\ORM\Seeder;
 
 use Bitrix\Main\ORM\Data\AddResult;
 use Bitrix\Main\Result;

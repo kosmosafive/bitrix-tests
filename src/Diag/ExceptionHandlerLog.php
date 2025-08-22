@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kosmos\BitrixTests\Diag;
+namespace Kosmosafive\BitrixTests\Diag;
 
 use Bitrix\Main\Diag;
 use Psr\Log;

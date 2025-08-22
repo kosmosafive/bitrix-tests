@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kosmos\BitrixTests\PHPUnit;
+namespace Kosmosafive\BitrixTests\PHPUnit;
 
 use Bitrix\Main\Result;
 use Mockery;

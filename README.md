@@ -1,4 +1,4 @@
-# Kosmos: Набор инструментов для тестирования Bitrix Framework
+# Набор инструментов для тестирования Bitrix Framework
 
 Решение обеспечивает запуск тестов для Bitrix Framework.
 
@@ -42,7 +42,7 @@ Bitrix Framework в вашей инсталляции может не подде
 
 declare(strict_types=1);
 
-use Kosmos\BitrixTests\Bootstrap;
+use Kosmosafive\BitrixTests\Bootstrap;
 
 $classLoader = require __DIR__ . '/../vendor/autoload.php';
 
@@ -167,7 +167,7 @@ Namespace строится по следующей схеме: {module_name}\Tes
 
 ### Unit: модульное тестирование
 
-Класс теста наследует \Kosmos\BitrixTests\PHPUnit\BitrixTestCase.
+Класс теста наследует \Kosmosafive\BitrixTests\PHPUnit\BitrixTestCase.
 
 Реализуйте тесты для всех публичных методов класса.
 В качестве названия тестового метода используйте название оригинального метода с префиксом test, например getId → testGetId.
@@ -200,7 +200,7 @@ public function testGetId(int $id): void
 
 ### Integration: интеграционное тестирование
 
-Класс теста может наследовать \Kosmos\BitrixTests\PHPUnit\BitrixTestCase, но рекомендуется наследовать \Kosmos\BitrixTests\PHPUnit\Integration\TestCase.
+Класс теста может наследовать \Kosmosafive\BitrixTests\PHPUnit\BitrixTestCase, но рекомендуется наследовать \Kosmosafive\BitrixTests\PHPUnit\Integration\TestCase.
 
 Реализуйте тесты для всех публичных методов класса.
 
@@ -439,3 +439,7 @@ arch()
     ->notToUseBannedFunctions(['unserialize'])
 ;
 ```
+
+## Миграция
+
+* [Миграция с 1.x на 2.0](doc/migration/2.0.md)

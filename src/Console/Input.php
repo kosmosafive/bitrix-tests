@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kosmos\BitrixTests\Console;
+namespace Kosmosafive\BitrixTests\Console;
 
 use Symfony\Component\Console\Input\Input as Base;
 

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Kosmos\BitrixTests\PHPUnit\Integration\Data\ORM;
+namespace Kosmosafive\BitrixTests\PHPUnit\Integration\Data\ORM;
 
 use Bitrix\Main\Application;
 use Bitrix\Main\Config\Option;
-use Kosmos\BitrixTests\PHPUnit\Integration\Data;
+use Kosmosafive\BitrixTests\PHPUnit\Integration\Data;
 
 trait FileUpload
 {

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Kosmos\BitrixTests\PHPUnit\Integration\Data\ORM\Seeder;
+namespace Kosmosafive\BitrixTests\PHPUnit\Integration\Data\ORM\Seeder;
 
 use Bitrix\Main\ORM\Data\AddResult;
 use Bitrix\Main\Result;
 use Bitrix\Main\Error;
 use CFile;
-use Kosmos\BitrixTests\PHPUnit\Integration\Data\ORM\FileUpload;
+use Kosmosafive\BitrixTests\PHPUnit\Integration\Data\ORM\FileUpload;
 
 class File extends Base
 {
