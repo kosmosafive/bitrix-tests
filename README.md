@@ -42,7 +42,7 @@ Bitrix Framework в вашей инсталляции может не подде
 
 declare(strict_types=1);
 
-use Kosmosafive\BitrixTests\Bootstrap;
+use Kosmosafive\Bitrix\Tests\Bootstrap;
 
 $classLoader = require __DIR__ . '/../vendor/autoload.php';
 
@@ -167,7 +167,7 @@ Namespace строится по следующей схеме: {module_name}\Tes
 
 ### Unit: модульное тестирование
 
-Класс теста наследует \Kosmosafive\BitrixTests\PHPUnit\BitrixTestCase.
+Класс теста наследует \Kosmosafive\Bitrix\Tests\PHPUnit\BitrixTestCase.
 
 Реализуйте тесты для всех публичных методов класса.
 В качестве названия тестового метода используйте название оригинального метода с префиксом test, например getId → testGetId.
@@ -200,7 +200,7 @@ public function testGetId(int $id): void
 
 ### Integration: интеграционное тестирование
 
-Класс теста может наследовать \Kosmosafive\BitrixTests\PHPUnit\BitrixTestCase, но рекомендуется наследовать \Kosmosafive\BitrixTests\PHPUnit\Integration\TestCase.
+Класс теста может наследовать \Kosmosafive\Bitrix\Tests\PHPUnit\BitrixTestCase, но рекомендуется наследовать \Kosmosafive\Bitrix\Tests\PHPUnit\Integration\TestCase.
 
 Реализуйте тесты для всех публичных методов класса.
 

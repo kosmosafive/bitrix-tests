@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Kosmosafive\BitrixTests\PHPUnit\Integration\Data\ORM;
+namespace Kosmosafive\Bitrix\Tests\PHPUnit\Integration\Data\ORM;
 
 use Bitrix\Main\ArgumentException;
 use Bitrix\Main\FileTable;
 use Bitrix\Main\UserTable;
 use Exception;
-use Kosmosafive\BitrixTests\Console;
+use Kosmosafive\Bitrix\Tests\Console;
 use ReflectionClass;
 use ReflectionException;
 use RuntimeException;

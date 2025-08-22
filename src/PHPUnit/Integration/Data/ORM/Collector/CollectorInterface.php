@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kosmosafive\BitrixTests\PHPUnit\Integration\Data\ORM\Collector;
+namespace Kosmosafive\Bitrix\Tests\PHPUnit\Integration\Data\ORM\Collector;
 
 interface CollectorInterface
 {

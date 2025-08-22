@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Kosmosafive\BitrixTests\Diag;
+namespace Kosmosafive\Bitrix\Tests\Diag;
 
 use Bitrix\Main\Diag\Logger;
-use Kosmosafive\BitrixTests\Console;
+use Kosmosafive\Bitrix\Tests\Console;
 
 class ConsoleLogger extends Logger
 {
