@@ -12,7 +12,9 @@ use PHPUnit\Framework\TestCase;
 abstract class BitrixTestCase extends TestCase
 {
     use MockeryPHPUnitIntegration;
+
     private array $backupGlobalsKeys = ['_SESSION'];
+
     private array $backupGlobalsMap = [];
 
     protected function setUp(): void
@@ -24,8 +26,8 @@ abstract class BitrixTestCase extends TestCase
             )
         );
 
-        foreach ($this->backupGlobalsKeys as $key) {
-            $this->backupGlobalsMap[$key] = $GLOBALS[$key];
+        foreach ($this->backupGlobalsKeys as $backupGlobalKey) {
+            $this->backupGlobalsMap[$backupGlobalKey] = $GLOBALS[$backupGlobalKey];
         }
 
         Mockery::resetContainer();
@@ -33,9 +35,9 @@ abstract class BitrixTestCase extends TestCase
 
     protected function tearDown(): void
     {
-        foreach ($this->backupGlobalsKeys as $key) {
-            if(array_key_exists($key, $this->backupGlobalsMap)) {
-                $GLOBALS[$key] = $this->backupGlobalsMap[$key];
+        foreach ($this->backupGlobalsKeys as $backupGlobalKey) {
+            if (array_key_exists($backupGlobalKey, $this->backupGlobalsMap)) {
+                $GLOBALS[$backupGlobalKey] = $this->backupGlobalsMap[$backupGlobalKey];
             }
         }
 
@@ -59,7 +61,7 @@ abstract class BitrixTestCase extends TestCase
      */
     protected function setUserId(?int $id = null): void
     {
-        if ($id) {
+        if ($id !== null && $id !== 0) {
             $_SESSION['SESS_AUTH']['USER_ID'] = $id;
         } else {
             unset($_SESSION['SESS_AUTH']['USER_ID']);

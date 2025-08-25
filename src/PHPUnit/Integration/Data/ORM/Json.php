@@ -11,6 +11,7 @@ use Iterator;
 class Json implements SeedInterface
 {
     protected string $className;
+
     protected array $data;
 
     /**

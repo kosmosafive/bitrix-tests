@@ -3,3 +3,7 @@
 /.php_cs.cache
 /vendor
 /composer.lock
+/tmp
+/phpstan.neon.dist
+/package-lock.json
+/node_modules/

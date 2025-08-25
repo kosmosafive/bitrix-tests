@@ -13,6 +13,7 @@ class File extends Base
 {
     use FileUpload;
 
+    #[\Override]
     public function clear(): void
     {
         parent::clear();
@@ -23,10 +24,10 @@ class File extends Base
             $connection->truncateTable($tableName);
         }
 
-        $dir = new IO\Directory($this->getFileUploadDir(true));
-        if ($dir->isExists()) {
+        $directory = new IO\Directory($this->getFileUploadDir(true));
+        if ($directory->isExists()) {
             try {
-                $dir->delete();
+                $directory->delete();
             } catch (FileDeleteException) {
             }
         }

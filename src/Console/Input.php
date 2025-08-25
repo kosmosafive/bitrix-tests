@@ -8,6 +8,12 @@ use Symfony\Component\Console\Input\Input as Base;
 
 class Input extends Base
 {
+    public function __toString(): string
+    {
+        // TODO: Implement __toString() method.
+        return '';
+    }
+
     protected function parse(): void
     {
         // TODO: Implement parse() method.
@@ -29,10 +35,5 @@ class Input extends Base
         bool $onlyParams = false
     ): mixed {
         // TODO: Implement getParameterOption() method.
-    }
-
-    public function __toString(): string
-    {
-        // TODO: Implement __toString() method.
     }
 }
