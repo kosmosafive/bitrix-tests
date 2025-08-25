@@ -92,6 +92,9 @@ $autoload = [
         <testsuite name="architecture">
             <directory>../modules/*/tests/Architecture</directory>
         </testsuite>
+        <testsuite name="stress">
+            <directory>../modules/*/tests/Stress</directory>
+        </testsuite>
         <testsuite name="coverage">
             <directory>../modules/*/tests/Unit</directory>
             <directory>../modules/*/tests/Integration</directory>
@@ -153,6 +156,7 @@ $autoload = [
 - Integration &mdash; тесты сценариев. Охватывают разом большую часть приложения в сравнении с unit-тестами. Могут использовать сервисы из контейнера, подключение к тестовой базе данных и т.д.
 - Application &mdash; тесты приложения. Полноценно тестируют некоторый процесс. Могут работать со страницей сайта, с внешними сервисами.
 - Architecture &mdash; архитектурное тестирование.
+- Stress &mdash; нагрузочное тестирование.
 
 Дальнейшая структура директорий \ файлов должна повторять таковую у модуля относительно директории lib.
 Соглашение об организации тестов для классов, расположенных вне директории lib, в настоящий момент не обсуждалось.
