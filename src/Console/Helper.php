@@ -14,8 +14,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 readonly class Helper
 {
     protected InputInterface $input;
+
     protected OutputInterface $output;
+
     protected FormatterHelper $formatter;
+
     protected SymfonyStyle $styler;
 
     public function __construct()

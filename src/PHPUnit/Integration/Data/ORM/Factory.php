@@ -16,6 +16,7 @@ use RuntimeException;
 class Factory
 {
     protected readonly array $filenameList;
+
     protected array $classNameList = [];
 
     public function __construct(
@@ -25,6 +26,13 @@ class Factory
         $this->filenameList = $filenameList;
     }
 
+    public function tearDown(): void
+    {
+        foreach ($this->classNameList as $className) {
+            $this->tearDownByClassName($className);
+        }
+    }
+
     /**
      * @throws Exception
      */
@@ -32,8 +40,8 @@ class Factory
     {
         $baseSeedPath = $this->getBaseSeedPath();
 
-        $console = new Console\Helper();
-        $styler = $console->getStyler();
+        $helper = new Console\Helper();
+        $symfonyStyle = $helper->getStyler();
 
         foreach ($this->filenameList as $filename) {
             $originFilename = $filename;
@@ -42,7 +50,7 @@ class Factory
                 $filename = $baseSeedPath . $filename;
 
                 if (!file_exists($filename)) {
-                    $styler->error('File not found: ' . $originFilename);
+                    $symfonyStyle->error('File not found: ' . $originFilename);
                     continue;
                 }
             }
@@ -55,10 +63,10 @@ class Factory
             foreach ($seed->getRowIterator() as $row) {
                 $addResult = $seeder->add($row);
                 if (!$addResult->isSuccess()) {
-                    $styler->error('Failed to add');
-                    $styler->table(['error'], [[print_r($addResult->getErrorMessages(), true)]]);
-                    $styler->table(['filename'], [[$originFilename]]);
-                    $styler->table(['row'], [[print_r($row, true)]]);
+                    $symfonyStyle->error('Failed to add');
+                    $symfonyStyle->table(['error'], [[print_r($addResult->getErrorMessages(), true)]]);
+                    $symfonyStyle->table(['filename'], [[$originFilename]]);
+                    $symfonyStyle->table(['row'], [[print_r($row, true)]]);
                 }
             }
 
@@ -76,8 +84,8 @@ class Factory
      */
     protected function getBaseSeedPath(): string
     {
-        $classInfo = (new ReflectionClass($this->className));
-        return dirname($classInfo->getFileName()) . '/.seed/' . $classInfo->getShortName() . '/';
+        $reflectionClass = (new ReflectionClass($this->className));
+        return dirname($reflectionClass->getFileName()) . '/.seed/' . $reflectionClass->getShortName() . '/';
     }
 
     /**
@@ -101,13 +109,6 @@ class Factory
         };
 
         return new $className($seed);
-    }
-
-    public function tearDown(): void
-    {
-        foreach ($this->classNameList as $className) {
-            $this->tearDownByClassName($className);
-        }
     }
 
     protected function tearDownByClassName(string $className): void

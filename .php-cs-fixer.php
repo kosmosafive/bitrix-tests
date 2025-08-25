@@ -7,7 +7,6 @@ $finder = PhpCsFixer\Finder::create()
     ->exclude(
         [
             'bitrix',
-            'test',
             'vendor',
             'doc',
         ]

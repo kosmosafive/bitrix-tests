@@ -10,6 +10,7 @@ use Psr\Log;
 class ExceptionHandlerLog extends Diag\ExceptionHandlerLog
 {
     protected Log\LoggerInterface $logger;
+
     protected bool $initialized = false;
 
     public function initialize(array $options): void

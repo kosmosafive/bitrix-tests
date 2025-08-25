@@ -9,14 +9,15 @@ use Bitrix\Main\DB\Connection;
 use Bitrix\Main\DB\SqlQueryException;
 use CDatabase;
 use Exception;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Console\Helper\QuestionHelper;
-use Kosmosafive\Bitrix\Tests\PHPUnit\BitrixTestCase;
 use Kosmosafive\Bitrix\Tests\Console;
+use Kosmosafive\Bitrix\Tests\PHPUnit\BitrixTestCase;
+use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 abstract class TestCase extends BitrixTestCase
 {
     protected static ?Connection $connection = null;
+
     protected static ?Data\ORM\Factory $ormDataFactory = null;
 
     /**
@@ -25,7 +26,7 @@ abstract class TestCase extends BitrixTestCase
      */
     public static function setUpBeforeClass(): void
     {
-        if (static::$connection === null) {
+        if (!static::$connection instanceof \Bitrix\Main\DB\Connection) {
             $connection = Application::getConnection();
 
             $configuration = $connection->getConfiguration();
@@ -43,52 +44,55 @@ abstract class TestCase extends BitrixTestCase
             $totalCount = static::getTotalTablesCount($connection, $configuration['database']);
             $testTotalCount = static::getTotalTablesCount($testConnection, $testConfiguration['database']);
 
-            $console = new Console\Helper();
+            $helper = new Console\Helper();
 
             $recreateTables = true;
 
             if ($totalCount === $testTotalCount) {
-
-                $silentArgv = array_filter($_SERVER['argv'], static function ($arg) {
-                    return ($arg === 'Standard input code')
-                        || str_starts_with($arg, '--coverage-');
-                });
+                $silentArgv = array_filter($_SERVER['argv'], static fn ($arg): bool => ($arg === 'Standard input code')
+                    || str_starts_with((string) $arg, '--coverage-'));
 
                 if (
                     isset($_SERVER['TERM_SESSION_ID'])
-                    && empty($silentArgv)
+                    && $silentArgv === []
                 ) {
                     $questionHelper = new QuestionHelper();
-                    $question = new ConfirmationQuestion(
+                    $confirmationQuestion = new ConfirmationQuestion(
                         'Recreate tables? (y|yes): ',
                         false,
                         '/^(y|yes)/i'
                     );
 
-                    $recreateTables = $questionHelper->ask($console->getInput(), $console->getOutput(), $question);
+                    $recreateTables = $questionHelper->ask(
+                        $helper->getInput(),
+                        $helper->getOutput(),
+                        $confirmationQuestion
+                    );
                 } else {
                     $recreateTables = false;
                 }
             }
 
             if ($recreateTables) {
-                $section = $console->getOutput()->section();
+                $section = $helper->getOutput()->section();
 
                 $section->writeln('Dropping tables...');
 
-                $progressBar = $console->createProgressBar($totalCount);
+                $progressBar = $helper->createProgressBar($totalCount);
 
                 $progressBar->start();
 
-                foreach ($testConnection->query('SHOW FULL TABLES WHERE Table_type = "BASE TABLE"')->fetchAll() as $row) {
+                foreach (
+                    $testConnection->query('SHOW FULL TABLES WHERE Table_type = "BASE TABLE"')->fetchAll() as $row
+                ) {
                     $table = $sqlHelper->quote(current($row));
-                    $testConnection->query("DROP TABLE IF EXISTS $table");
+                    $testConnection->query('DROP TABLE IF EXISTS ' . $table);
                     $progressBar->advance();
                 }
 
                 foreach ($testConnection->query('SHOW FULL TABLES WHERE Table_type = "VIEW"')->fetchAll() as $row) {
                     $table = $sqlHelper->quote(current($row));
-                    $testConnection->query("DROP VIEW IF EXISTS $table");
+                    $testConnection->query('DROP VIEW IF EXISTS ' . $table);
                     $progressBar->advance();
                 }
 
@@ -97,21 +101,21 @@ abstract class TestCase extends BitrixTestCase
 
                 $section->writeln('Recreating tables...');
 
-                $progressBar = $console->createProgressBar($totalCount);
+                $progressBar = $helper->createProgressBar($totalCount);
 
                 $progressBar->start();
 
                 foreach ($connection->query('SHOW FULL TABLES WHERE Table_type = "BASE TABLE"')->fetchAll() as $row) {
                     $table = $sqlHelper->quote(current($row));
-                    $schema = $connection->query("SHOW CREATE TABLE $table")->fetch();
+                    $schema = $connection->query('SHOW CREATE TABLE ' . $table)->fetch();
                     $testConnection->query($schema['Create Table']);
-                    $testConnection->query("ALTER TABLE $table AUTO_INCREMENT = 1");
+                    $testConnection->query(sprintf('ALTER TABLE %s AUTO_INCREMENT = 1', $table));
                     $progressBar->advance();
                 }
 
                 foreach ($connection->query('SHOW FULL TABLES WHERE Table_type = "VIEW"')->fetchAll() as $row) {
                     $table = $sqlHelper->quote(current($row));
-                    $schema = $connection->query("SHOW CREATE TABLE $table")->fetch();
+                    $schema = $connection->query('SHOW CREATE TABLE ' . $table)->fetch();
                     $testConnection->query($schema['Create View']);
                     $progressBar->advance();
                 }
@@ -126,18 +130,50 @@ abstract class TestCase extends BitrixTestCase
             $connectionPool->setConnectionParameters('default', $testConfiguration);
 
             global $DB;
-            $db = new CDatabase();
-            $db->Connect(
+            $cDatabase = new CDatabase();
+            $cDatabase->Connect(
                 $testConfiguration['host'],
                 $testConfiguration['database'],
                 $testConfiguration['login'],
                 $testConfiguration['password'],
                 'default'
             );
-            $DB = $db;
 
             static::$connection = $testConnection;
         }
+    }
+
+    public static function tearDownAfterClass(): void
+    {
+        if (static::$ormDataFactory instanceof \Kosmosafive\Bitrix\Tests\PHPUnit\Integration\Data\ORM\Factory) {
+            static::$ormDataFactory = null;
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    #[\Override]
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $ormDataFilenameList = $this->getOrmDataFilenameList();
+        if ($ormDataFilenameList !== []) {
+            static::$ormDataFactory = new Data\ORM\Factory(
+                static::class,
+                ...$ormDataFilenameList,
+            );
+            static::$ormDataFactory->up();
+        }
+    }
+
+    #[\Override]
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        static::$ormDataFactory?->tearDown();
     }
 
     /**
@@ -150,38 +186,7 @@ abstract class TestCase extends BitrixTestCase
   (SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = "' . $database . '" AND table_type = "BASE TABLE") +
   (SELECT COUNT(*) FROM information_schema.views WHERE table_schema = "' . $database . '") AS TOTAL_COUNT;'
         );
-        return (int)$query->fetch()['TOTAL_COUNT'];
-    }
-
-    public static function tearDownAfterClass(): void
-    {
-        if (static::$ormDataFactory) {
-            static::$ormDataFactory = null;
-        }
-    }
-
-    /**
-     * @throws Exception
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $ormDataFilenameList = $this->getOrmDataFilenameList();
-        if (!empty($ormDataFilenameList)) {
-            static::$ormDataFactory = new Data\ORM\Factory(
-                static::class,
-                ...$ormDataFilenameList,
-            );
-            static::$ormDataFactory->up();
-        }
-    }
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-
-        static::$ormDataFactory?->tearDown();
+        return (int) $query->fetch()['TOTAL_COUNT'];
     }
 
     protected function getOrmDataFilenameList(): array

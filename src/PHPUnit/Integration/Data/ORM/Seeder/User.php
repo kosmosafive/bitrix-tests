@@ -4,26 +4,27 @@ declare(strict_types=1);
 
 namespace Kosmosafive\Bitrix\Tests\PHPUnit\Integration\Data\ORM\Seeder;
 
+use Bitrix\Main\Error;
 use Bitrix\Main\ORM\Data\AddResult;
 use Bitrix\Main\Result;
-use Bitrix\Main\Error;
 use CUser;
 
 class User extends Base
 {
+    #[\Override]
     public function add(array $row): Result
     {
-        $result = new AddResult();
+        $addResult = new AddResult();
 
-        $user = new CUser();
+        $cUser = new CUser();
 
-        $id = $user->Add($row);
+        $id = $cUser->Add($row);
         if ($id > 0) {
-            $result->setId($id);
+            $addResult->setId($id);
         } else {
-            $result->addError(new Error($user->LAST_ERROR));
+            $addResult->addError(new Error($cUser->LAST_ERROR));
         }
 
-        return $result;
+        return $addResult;
     }
 }

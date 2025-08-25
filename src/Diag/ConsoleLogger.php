@@ -15,9 +15,9 @@ class ConsoleLogger extends Logger
         unset($context['date'], $context['host']);
         $context['level'] = $level;
 
-        $console = new Console\Helper();
+        $helper = new Console\Helper();
 
-        $style = match($level) {
+        $style = match ($level) {
             'emergency',
             'alert',
             'critical',
@@ -29,8 +29,8 @@ class ConsoleLogger extends Logger
             default => '',
         };
 
-        $styler = $console->getStyler();
-        $styler->block($message, $level, $style, ' ', true);
-        $styler->text(print_r($context, true));
+        $symfonyStyle = $helper->getStyler();
+        $symfonyStyle->block($message, $level, $style, ' ', true);
+        $symfonyStyle->text(print_r($context, true));
     }
 }

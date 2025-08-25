@@ -9,5 +9,6 @@ use Iterator;
 interface SeedInterface
 {
     public function getClassName(): string;
+
     public function getRowIterator(): Iterator;
 }
