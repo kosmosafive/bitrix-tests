@@ -7,7 +7,6 @@ namespace Kosmosafive\Bitrix\Tests\PHPUnit\Integration;
 use Bitrix\Main\Application;
 use Bitrix\Main\DB\Connection;
 use Bitrix\Main\DB\SqlQueryException;
-use CDatabase;
 use Exception;
 use Kosmosafive\Bitrix\Tests\Console;
 use Kosmosafive\Bitrix\Tests\PHPUnit\BitrixTestCase;
@@ -82,6 +81,8 @@ abstract class TestCase extends BitrixTestCase
 
                 $progressBar->start();
 
+                static::dropForeignKeys($testConnection);
+
                 foreach (
                     $testConnection->query('SHOW FULL TABLES WHERE Table_type = "BASE TABLE"')->fetchAll() as $row
                 ) {
@@ -130,8 +131,9 @@ abstract class TestCase extends BitrixTestCase
             $connectionPool->setConnectionParameters('default', $testConfiguration);
 
             global $DB;
-            $cDatabase = new CDatabase();
-            $cDatabase->Connect(
+
+            $DB->Disconnect();
+            $DB->Connect(
                 $testConfiguration['host'],
                 $testConfiguration['database'],
                 $testConfiguration['login'],
@@ -192,5 +194,31 @@ abstract class TestCase extends BitrixTestCase
     protected function getOrmDataFilenameList(): array
     {
         return [];
+    }
+
+    /**
+     * @throws SqlQueryException
+     */
+    protected static function dropForeignKeys(Connection $connection): void
+    {
+        $sql = "
+            SELECT
+                TABLE_NAME,
+                CONSTRAINT_NAME
+            FROM
+                INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+            WHERE
+                CONSTRAINT_TYPE = 'FOREIGN KEY'
+                AND TABLE_SCHEMA = '" . $connection->getDatabase() . "'
+        ";
+
+        $query = $connection->query($sql);
+        while ($row = $query->fetch()) {
+            $sql = "
+                ALTER TABLE {$row['TABLE_NAME']}
+                DROP FOREIGN KEY {$row['CONSTRAINT_NAME']};
+            ";
+            $connection->query($sql);
+        }
     }
 }
