@@ -25,23 +25,23 @@
     ],
     "require": {
         "php": "^8.3",
-        "pestphp/pest": "^4.0.3",
-        "pestphp/pest-plugin-type-coverage": "^4.0.2",
+        "pestphp/pest": "^4.3",
+        "pestphp/pest-plugin-type-coverage": "^4.0",
         "pestphp/pest-plugin-stressless": "^4.0",
-        "infection/infection": "^0.31.2",
-        "mockery/mockery": "^1.6.12",
-        "symfony/console": "^7.3.2",
-        "symfony/dotenv": "^7.3.2",
-        "pestphp/pest-plugin-browser": "^4.0",
-        "pestphp/pest-plugin-profanity": "^4.0"
+        "infection/infection": "^0.31",
+        "mockery/mockery": "^1.6",
+        "symfony/console": "^7.0 || ^8.0",
+        "symfony/dotenv": "^7.0 || ^8.0",
+        "pestphp/pest-plugin-browser": "^4.2",
+        "pestphp/pest-plugin-profanity": "^4.2"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
         "phpstan/phpstan": "^2.1",
-        "rector/rector": "^2.1",
-        "lendable/composer-license-checker": "^1.2",
+        "rector/rector": "^2.3",
+        "lendable/composer-license-checker": "^1.4",
         "shipmonk/composer-dependency-analyser": "^1.8",
-        "friendsofphp/php-cs-fixer": "^3.86"
+        "friendsofphp/php-cs-fixer": "^3.92"
     },
     "autoload": {
         "psr-4": {
