@@ -8,6 +8,8 @@
 - [PHPUnit](https://phpunit.de/index.html)
 - [Infection](https://infection.github.io/)
 
+Подробная документация — в [wiki](wiki/Home.md).
+
 ---
 
 ## Установка
